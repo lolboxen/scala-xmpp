@@ -1,0 +1,8 @@
+.DS_Store
+.idea/
+*.iml
+target/
+snapshots/
+failed_snapshots/
+logs/
+akka:/
