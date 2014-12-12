@@ -10,10 +10,10 @@ import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpecLike}
 /**
  * Created by Trent Ahrens on 12/9/14.
  */
-class PacketReaderActorTest(_system: ActorSystem) extends TestKit(_system) with ImplicitSender with WordSpecLike with Matchers with BeforeAndAfterAll {
+class PacketReaderTest(_system: ActorSystem) extends TestKit(_system) with ImplicitSender with WordSpecLike with Matchers with BeforeAndAfterAll {
   def this() = this(ActorSystem("MySpec"))
 
-  val packetReader = system.actorOf(Props(classOf[PacketReaderActor], testActor, List(new StreamParser())))
+  val packetReader = system.actorOf(Props(classOf[PacketReader], testActor, List(new StreamParser())))
 
   override def afterAll() {
     TestKit.shutdownActorSystem(system)

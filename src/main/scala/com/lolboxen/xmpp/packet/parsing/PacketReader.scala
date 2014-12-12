@@ -59,12 +59,10 @@ class PacketReader(val parsers: List[PacketParser]) {
       val elem: Elem = XmlHelper.parseEventsAsXml(eventBuffer.toList)
       eventBuffer.clear()
       parsers.find({
-        case p: ElemParser =>
-          p.canParse(elem)
+        case p: ElemParser => p.canParse(elem)
         case _ => false
       }).map(p =>
-        p.asInstanceOf[ElemParser]).orElse(defaultElemParser)
-        .map(p => {
+        p.asInstanceOf[ElemParser]).orElse(defaultElemParser).map(p => {
         p.parse(elem)
       })
     }
@@ -85,8 +83,8 @@ class PacketReader(val parsers: List[PacketParser]) {
   def buffer(e: XMLEvent) = {
     eventBuffer += e
     openedTags += (e match {
-      case e: EvElemStart => 1
-      case e: EvElemEnd => -1
+      case _: EvElemStart => 1
+      case _: EvElemEnd => -1
       case _ => 0
     })
   }

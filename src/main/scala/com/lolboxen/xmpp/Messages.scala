@@ -1,5 +1,6 @@
 package com.lolboxen.xmpp
 
+import akka.actor.ActorRef
 import com.lolboxen.xmpp.packet.Packet
 
 /**
@@ -14,3 +15,7 @@ case object Disconnected
 case class Send(m: Packet)
 
 case class Received(p: Packet)
+
+case class RegisterTcpActor(connection: ActorRef)
+
+case object UnregisterTcpActor
