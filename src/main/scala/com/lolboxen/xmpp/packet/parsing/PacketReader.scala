@@ -1,7 +1,7 @@
 package com.lolboxen.xmpp.packet.parsing
 
 import akka.util.ByteString
-import com.lolboxen.xmpp.helper.XmlHelper
+import com.lolboxen.xmpp.helper.XmlEventParser
 import com.lolboxen.xmpp.packet.Packet
 
 import com.lolboxen.xmpp.stax.XmlEventReader
@@ -56,7 +56,7 @@ class PacketReader(val parsers: List[PacketParser]) {
       eventParser.map(p => p.parseEnd(eventBuffer.toList))
     }
     else {
-      val elem: Elem = XmlHelper.parseEventsAsXml(eventBuffer.toList)
+      val elem: Elem = XmlEventParser.parseEventsAsXml(eventBuffer.toList)
       eventBuffer.clear()
       parsers.find({
         case p: ElemParser => p.canParse(elem)

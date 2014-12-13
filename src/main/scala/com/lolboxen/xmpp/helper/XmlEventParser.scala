@@ -6,7 +6,7 @@ import scala.xml.pull.{EvText, EvElemEnd, EvElemStart, XMLEvent}
 /**
  * Created by Trent Ahrens on 12/9/14.
  */
-object XmlHelper {
+object XmlEventParser {
   def parseEventsAsString(s: Seq[XMLEvent]): String = s.foldLeft("") {
     case (xmlStr, e: EvElemStart) => s"$xmlStr${strFor(e)}"
     case (xmlStr, e: EvElemEnd) => s"$xmlStr${strFor(e)}"

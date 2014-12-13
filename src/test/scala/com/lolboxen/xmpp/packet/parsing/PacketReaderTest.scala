@@ -15,7 +15,7 @@ class PacketReaderTest extends FlatSpec with Matchers {
   it should "correctly parse all packets" in {
     val reader = new PacketReader(List(new StreamParser, new SaslChallengeParser, new SaslSuccessParser))
     reader.feed(data)
-    reader.nextPacket() should be (Some(StreamBegan("1", 1.0f, Jid("example.com"))))
+    reader.nextPacket() should be (Some(StreamBegan(Some("1"), "1.0", Some(Jid("example.com")), None)))
     reader.nextPacket() should be (Some(SaslChallenge("data")))
     reader.nextPacket() should be (Some(SaslSuccess))
     reader.nextPacket() should be (Some(StreamEnded))

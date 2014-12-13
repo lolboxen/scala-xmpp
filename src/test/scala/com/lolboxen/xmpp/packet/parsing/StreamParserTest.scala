@@ -25,7 +25,7 @@ class StreamParserTest extends FlatSpec with Matchers {
   }
 
   it should "parse stream open packet" in {
-    parser.parseStart(parsable) should be (new StreamBegan("1", 1.0f, Jid("example.com")))
+    parser.parseStart(parsable) should be (new StreamBegan(Some("1"), "1.0", Some(Jid("example.com")), None))
   }
 
   it should "parse stream end packet" in {

@@ -22,24 +22,24 @@ class TcpWriter() extends Actor {
   }
 
   def writing: Receive = {
-    case Write(data) =>
+    case Write(data, _) =>
       tcpActor ! Write(data, Ack)
       context.become(buffering)
     case UnregisterTcpActor =>
-      tcpActor = _
+      tcpActor = null
       buffer.getAndClearBuffer
       context.become(receive)
   }
 
   def buffering: Receive = {
-    case Write(data) => buffer.append(data)
+    case Write(data, _) => buffer.append(data)
     case Ack =>
       buffer.empty match {
         case true => context.become(writing)
         case _ => tcpActor ! Write(buffer.getAndClearBuffer)
       }
     case UnregisterTcpActor =>
-      tcpActor = _
+      tcpActor = null
       buffer.getAndClearBuffer
       context.become(receive)
   }

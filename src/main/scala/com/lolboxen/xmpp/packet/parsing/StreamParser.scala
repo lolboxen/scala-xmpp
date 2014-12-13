@@ -17,6 +17,6 @@ class StreamParser extends EventParser {
   override def parseEnd(s: Seq[XMLEvent]): Packet = StreamEnded
 
   override def parseStart(s: Seq[XMLEvent]): Packet = s match {
-    case EvElemStart(_, _, attr, _)::t => new StreamBegan(attr.id, attr.version, attr.from)
+    case EvElemStart(_, _, attr, _)::t => new StreamBegan(Some(attr.id), attr.version, attr.fromOption, None)
   }
 }

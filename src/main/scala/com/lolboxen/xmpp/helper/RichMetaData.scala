@@ -26,7 +26,7 @@ object RichMetaData {
 
 
   implicit class StreamMetaData(val m: MetaData) extends AnyVal {
-    def version: Float = first("version", m).text.toFloat
+    def version: String = first("version", m).text
 
     def id: String = first("id", m).text
   }

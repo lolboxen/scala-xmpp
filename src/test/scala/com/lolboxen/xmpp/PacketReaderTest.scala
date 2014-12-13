@@ -23,7 +23,7 @@ class PacketReaderTest(_system: ActorSystem) extends TestKit(_system) with Impli
     "foo bar" in {
       packetReader ! akka.io.Tcp.Received(ByteString("""<stream:stream xmlns="jabber:client" xmlns:stream="http://etherx.jabber.org/streams" id="1" version="1.0" from="domain.com"></stream:stream>"""))
       expectMsgAllOf(
-        Received(StreamBegan("1", 1.0f, Jid("domain.com"))),
+        Received(StreamBegan(Some("1"), "1.0", Some(Jid("domain.com")), None)),
         Received(StreamEnded))
     }
   }
