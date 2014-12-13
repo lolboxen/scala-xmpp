@@ -19,8 +19,8 @@ class PacketReaderTest(_system: ActorSystem) extends TestKit(_system) with Impli
     TestKit.shutdownActorSystem(system)
   }
 
-  "blah" must {
-    "foo bar" in {
+  it must {
+    "correct decode packets" in {
       packetReader ! akka.io.Tcp.Received(ByteString("""<stream:stream xmlns="jabber:client" xmlns:stream="http://etherx.jabber.org/streams" id="1" version="1.0" from="domain.com"></stream:stream>"""))
       expectMsgAllOf(
         Received(StreamBegan(Some("1"), "1.0", Some(Jid("domain.com")), None)),

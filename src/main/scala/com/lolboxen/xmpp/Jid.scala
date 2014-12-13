@@ -10,9 +10,9 @@ object Jid {
   val domain = """([\w\d.]+)""".r
 
   def apply(jid: String): Jid = jid match {
-      case full(user, domain, resource) => new Jid(Some(user), domain, Some(resource))
-      case base(user, domain) => new Jid(Some(user), domain, None)
-      case domain(domain) => new Jid(None, domain, None)
+    case full(u, d, r) => new Jid(Some(u), d, Some(r))
+    case base(u, d) => new Jid(Some(u), d, None)
+    case domain(d) => new Jid(None, d, None)
     }
 }
 
