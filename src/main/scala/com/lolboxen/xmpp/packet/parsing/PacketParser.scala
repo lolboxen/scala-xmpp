@@ -19,5 +19,5 @@ trait EventParser extends PacketParser {
 trait ElemParser extends PacketParser {
   def canParse(e: Elem): Boolean
   def parse(e: Elem): Packet
-  def isDefault: Boolean
+  def isDefault: Boolean = false
 }
