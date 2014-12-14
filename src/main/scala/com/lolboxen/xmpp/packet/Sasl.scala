@@ -9,6 +9,10 @@ case class SaslChallenge(payload: String) extends Packet {
   override def byteString: ByteString = ByteString(<challenge xmlns="urn:ietf:params:xml:ns:xmpp-sasl">{payload}</challenge>.toString())
 }
 
+case class SaslResponse(payload: String) extends Packet {
+  override def byteString: ByteString = ByteString(<response xmlns="urn:ietf:params:xml:ns:xmpp-sasl">{payload}</response>.toString())
+}
+
 case object SaslSuccess extends Packet {
   override def byteString: ByteString = ByteString(<success xmlns="urn:ietf:params:xml:ns:xmpp-sasl" />.toString())
 }
