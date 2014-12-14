@@ -7,7 +7,7 @@ object Jid {
 
   val full = """([\w\d]+)@([\w\d.]+)/([\w\d]+)""".r
   val base = """([\w\d]+)@([\w\d.]+)""".r
-  val domain = """([\w\d.]+)""".r
+  val domain = """([\w\d.-]+)""".r
 
   def apply(jid: String): Jid = jid match {
     case full(u, d, r) => new Jid(Some(u), d, Some(r))

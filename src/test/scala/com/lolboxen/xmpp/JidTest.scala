@@ -21,9 +21,9 @@ class JidTest extends FlatSpec with Matchers {
   }
 
   "example.com" should "parse as domain" in {
-    val jid = Jid("example.com")
+    val jid = Jid("e-xample.com")
     jid.user should be (None)
-    jid.domain should be ("example.com")
+    jid.domain should be ("e-xample.com")
     jid.resource should be (None)
   }
 
