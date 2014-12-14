@@ -10,6 +10,8 @@ case class Connect(host: String, port: Int, domain: String)
 
 case object Connected
 
+case object Disconnect
+
 case object Disconnected
 
 case class Send(m: Packet)
