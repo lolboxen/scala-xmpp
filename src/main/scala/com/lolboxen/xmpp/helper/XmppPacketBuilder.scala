@@ -13,6 +13,8 @@ object XmppPacketBuilder {
 
   def stream: XmppPacketBuilder = "stream" :: "stream" ns "jabber:client" ns("stream", "http://etherx.jabber.org/streams") nonclosing
 
+  implicit def elemToByteString(e: Elem): ByteString = ByteString(e.toString())
+
   implicit def packetBuilderToString(pb: XmppPacketBuilder): String = pb.render
 
   implicit def packetBuilderToByteString(pb: XmppPacketBuilder): ByteString = ByteString(pb.render)
