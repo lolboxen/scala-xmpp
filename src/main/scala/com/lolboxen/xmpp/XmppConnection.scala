@@ -4,7 +4,7 @@ import java.net.InetSocketAddress
 
 import akka.actor.{Actor, ActorRef}
 import akka.io.{Tcp, IO}
-import akka.io.Tcp.{Received => TcpReceived, ConnectionClosed, Register}
+import akka.io.Tcp.{Received => TcpReceived, ConfirmedClose, ConnectionClosed, Register}
 
 /**
  * Created by Trent Ahrens on 12/5/14.
@@ -13,7 +13,7 @@ import akka.io.Tcp.{Received => TcpReceived, ConnectionClosed, Register}
 /**
  *
  */
-class XmppConnection(processor: ActorRef, packetReader: ActorRef, packerWriter: ActorRef) extends Actor {
+class XmppConnection(client: ActorRef, processor: ActorRef, packetReader: ActorRef, packerWriter: ActorRef) extends Actor {
 
   import context.system
 
@@ -33,10 +33,13 @@ class XmppConnection(processor: ActorRef, packetReader: ActorRef, packerWriter: 
   }
 
   def connected: Receive = {
+    case Disconnect =>
+      tcpActor ! ConfirmedClose
+      context.become(disconnected)
     case s: Send => packetWriter ! s
     case r: TcpReceived => packetReader ! r
     case e: ConnectionClosed =>
-      processor ! e
+      client ! e
       packerWriter ! UnregisterTcpActor
       context.become(disconnected)
   }
