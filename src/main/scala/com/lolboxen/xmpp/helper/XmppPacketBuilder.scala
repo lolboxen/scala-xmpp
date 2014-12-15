@@ -11,7 +11,7 @@ import scala.xml._
  */
 object XmppPacketBuilder {
 
-  def stream: XmppPacketBuilder = "stream" :: "stream" ns "jabber:client" ns("stream", "http://etherx.jabber.org/streams") nonclosing
+  def stream: XmppPacketBuilder = "stream" :: "stream" ns("stream", "http://etherx.jabber.org/streams") ns "jabber:client" nonclosing
 
   implicit def elemToByteString(e: Elem): ByteString = ByteString(e.toString())
 
@@ -67,6 +67,8 @@ class XmppPacketBuilder(val prefix: String, val name: String) {
     case Some(jid) => to(jid)
     case None => this
   }
+
+  def version(right: String): XmppPacketBuilder = attr(null, "version", right)
 
   override def toString: String = render
 

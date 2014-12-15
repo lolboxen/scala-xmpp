@@ -13,12 +13,11 @@ import akka.io.Tcp.{Received => TcpReceived, ConfirmedClose, ConnectionClosed, R
 /**
  *
  */
-class XmppConnection(client: ActorRef, processor: ActorRef, packetReader: ActorRef, packerWriter: ActorRef) extends Actor {
+class XmppConnection(client: ActorRef, processor: ActorRef, packetReader: ActorRef, packetWriter: ActorRef) extends Actor {
 
   import context.system
 
   var tcpActor: ActorRef = _
-  var packetWriter: ActorRef = _
 
   override def receive: Receive = disconnected
 
@@ -27,7 +26,7 @@ class XmppConnection(client: ActorRef, processor: ActorRef, packetReader: ActorR
     case c @ Tcp.Connected(_,_) =>
       tcpActor = sender()
       tcpActor ! Register(self)
-      packerWriter ! RegisterTcpActor(tcpActor)
+      packetWriter ! RegisterTcpActor(tcpActor)
       processor ! c
       context.become(connected)
   }
@@ -40,7 +39,7 @@ class XmppConnection(client: ActorRef, processor: ActorRef, packetReader: ActorR
     case r: TcpReceived => packetReader ! r
     case e: ConnectionClosed =>
       client ! e
-      packerWriter ! UnregisterTcpActor
+      packetWriter ! UnregisterTcpActor
       context.become(disconnected)
   }
 }

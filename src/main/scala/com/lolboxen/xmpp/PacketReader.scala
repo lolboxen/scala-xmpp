@@ -1,6 +1,7 @@
 package com.lolboxen.xmpp
 
 import akka.actor.{Actor, ActorRef}
+import akka.event.Logging
 import akka.io.Tcp.{Received => TcpReceived}
 import com.lolboxen.xmpp.packet.parsing.{PacketParser, PacketReader => PacketReaderSync}
 
@@ -10,6 +11,8 @@ import scala.annotation.tailrec
  * Created by Trent Ahrens on 12/5/14.
  */
 class PacketReader(listener: ActorRef, val parsers: List[PacketParser]) extends Actor {
+
+  val log = Logging(context.system, this)
 
   val packetReader = new PacketReaderSync(parsers)
 
@@ -23,6 +26,7 @@ class PacketReader(listener: ActorRef, val parsers: List[PacketParser]) extends 
   final def exhaustReader(): Unit = {
     packetReader.nextPacket() match {
       case Some(p) =>
+        log.info("Received packet: {}", p)
         listener ! Received(p)
         exhaustReader()
       case _ => ()
