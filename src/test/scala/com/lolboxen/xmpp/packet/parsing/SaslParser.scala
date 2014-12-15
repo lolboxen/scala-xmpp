@@ -24,7 +24,7 @@ class SaslChallengeParserTest extends FlatSpec with Matchers {
 
 class SaslSuccessParserTest extends FlatSpec with Matchers {
 
-  val elem: Elem = <success xmlns="urn:ietf:params:xml:ns:xmpp-sasl"></success>
+  val elem: Elem = <success xmlns="urn:ietf:params:xml:ns:xmpp-sasl"/>
   val parser: SaslSuccessParser = new SaslSuccessParser
 
   it should "recognize when it can parse" in {
