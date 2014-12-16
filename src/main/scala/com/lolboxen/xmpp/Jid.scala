@@ -17,5 +17,5 @@ object Jid {
 }
 
 case class Jid(user: Option[String], domain: String, resource: Option[String]) {
-  def asString: String = String.format("%s%s%s", user.map(u => u + "@").getOrElse(""), domain, resource.map(r => "/" + r).getOrElse(""))
+  def asString: String = "%s%s%s".format(user.map(u => u + "@").getOrElse(""), domain, resource.map(r => "/" + r).getOrElse(""))
 }
