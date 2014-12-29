@@ -6,6 +6,7 @@ import com.lolboxen.xmpp.packet.Packet
 
 import com.lolboxen.xmpp.stax.XmlEventReader
 
+import scala.annotation.tailrec
 import scala.collection.mutable.ListBuffer
 import scala.xml.Elem
 import scala.xml.pull.{EvElemEnd, EvElemStart, XMLEvent}
@@ -24,13 +25,17 @@ class PacketReader(val parsers: List[PacketParser]) {
 
   def feed(d: ByteString) = xmlReader.feed(d)
 
-  def nextPacket(): Option[Packet] = {
-    while (xmlReader.hasNext) {
+  @tailrec
+  final def nextPacket(): Option[Packet] = {
+    if (xmlReader.hasNext) {
       buffer(xmlReader.next())
-      val r = parse
-      if (r.isDefined) return r
+      parse match {
+        case Some(x) => Some(x)
+        case _ => nextPacket()
+      }
     }
-    None
+    else
+      None
   }
 
   def parse = {
