@@ -8,8 +8,8 @@ import com.fasterxml.aalto.AsyncXMLStreamReader._
 import com.fasterxml.aalto.stax.InputFactoryImpl
 
 import scala.annotation.tailrec
-import scala.xml.{NamespaceBinding, MetaData, Attribute, Null}
-import scala.xml.pull.{EvElemStart, EvElemEnd, EvText, XMLEvent}
+import scala.xml.pull.{EvElemEnd, EvElemStart, EvText, XMLEvent}
+import scala.xml.{Attribute, MetaData, NamespaceBinding, Null}
 
 /**
  * Created by Trent Ahrens on 12/10/14.
@@ -40,12 +40,14 @@ class XmlEventReader {
         case EVENT_INCOMPLETE => ()
         case START_ELEMENT => nextEvent = EvElemStart(emptyAsNull(xmlReader.getPrefix), xmlReader.getLocalName, metaData, namespace)
         case END_ELEMENT => nextEvent = EvElemEnd(emptyAsNull(xmlReader.getPrefix), xmlReader.getLocalName)
-        case CDATA => nextEvent = EvText(xmlReader.getText)
-        case CHARACTERS => nextEvent = EvText(xmlReader.getText)
+        case CDATA => nextEvent = EvText(escape(xmlReader.getText))
+        case CHARACTERS => nextEvent = EvText(escape(xmlReader.getText))
         case _ => parse()
       }
     }
   }
+
+  def escape(s: String) = s.replace("&", "&amp;").replace("\"", "&quot;").replace("'", "&apos;").replace("<", "&lt;").replace(">", "&gt;")
 
   def emptyAsNull(s: String): String = s match {
     case null => null
