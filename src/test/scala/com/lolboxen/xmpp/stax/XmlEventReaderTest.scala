@@ -1,15 +1,15 @@
 package com.lolboxen.xmpp.stax
 
 import akka.util.ByteString
-import org.scalatest.{FlatSpec, Matchers}
+import com.lolboxen.test.UnitSpec
 
-import scala.xml.{NamespaceBinding, Null, Attribute}
-import scala.xml.pull.{EvText, EvElemEnd, EvElemStart}
+import scala.xml.pull.{EvElemEnd, EvElemStart, EvText}
+import scala.xml.{Attribute, NamespaceBinding, Null}
 
 /**
  * Created by Trent Ahrens on 12/10/14.
  */
-class XmlEventReaderTest extends FlatSpec with Matchers {
+class XmlEventReaderTest extends UnitSpec {
 
   val xml = """<a:z xmlns:a="foobars" k="v"><a:y/><x>&amp;test</x><w xmlns="localns" /></a:z>"""
 

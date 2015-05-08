@@ -1,17 +1,16 @@
 package com.lolboxen.xmpp
 
-import akka.actor.{ActorSystem, Props}
-import akka.testkit.{ImplicitSender, TestKit}
+import akka.actor.Props
+import akka.testkit.TestKit
 import akka.util.ByteString
-import com.lolboxen.xmpp.packet.{StreamEnded, StreamBegan}
+import com.lolboxen.test.AkkaUnitSpec
 import com.lolboxen.xmpp.packet.parsing.StreamParser
-import org.scalatest._
+import com.lolboxen.xmpp.packet.{StreamBegan, StreamEnded}
 
 /**
  * Created by Trent Ahrens on 12/9/14.
  */
-class PacketReaderTest(_system: ActorSystem) extends TestKit(_system) with ImplicitSender with FlatSpecLike with Matchers with BeforeAndAfterAll {
-  def this() = this(ActorSystem("MySpec"))
+class PacketReaderTest extends AkkaUnitSpec {
 
   val packetReader = system.actorOf(Props(classOf[PacketReader], testActor, List(new StreamParser())))
 
