@@ -2,7 +2,6 @@ package com.lolboxen.xmpp
 
 import akka.actor.{Actor, ActorRef}
 import akka.event.Logging
-import akka.io.Tcp.{Received => TcpReceived}
 import com.lolboxen.xmpp.packet.parsing.{PacketParser, PacketReader => PacketReaderSync}
 
 import scala.annotation.tailrec
@@ -17,7 +16,7 @@ class PacketReader(listener: ActorRef, val parsers: List[PacketParser]) extends 
   val packetReader = new PacketReaderSync(parsers)
 
   override def receive: Receive = {
-    case TcpReceived(data) =>
+    case ReceivedBytes(data) =>
       packetReader.feed(data)
       exhaustReader()
   }
