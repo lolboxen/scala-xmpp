@@ -8,6 +8,9 @@ import com.lolboxen.xmpp.{UnregisterTcpActor, RegisterTcpActor}
 /**
  * Created by Trent Ahrens on 12/12/14.
  */
+
+case class IoWrite(byteString: ByteString)
+
 class TcpWriter() extends Actor {
 
   case object Ack extends Event
@@ -22,7 +25,7 @@ class TcpWriter() extends Actor {
   }
 
   def writing: Receive = {
-    case Write(data, _) =>
+    case IoWrite(data) =>
       tcpActor ! Write(data, Ack)
       context.become(buffering)
     case UnregisterTcpActor =>
@@ -32,7 +35,7 @@ class TcpWriter() extends Actor {
   }
 
   def buffering: Receive = {
-    case Write(data, _) => buffer.append(data)
+    case IoWrite(data) => buffer.append(data)
     case Ack =>
       buffer.empty match {
         case true => context.become(writing)
@@ -55,6 +58,6 @@ class TcpWriter() extends Actor {
       r
     }
 
-    def empty: Boolean = buffer.length == 0
+    def empty: Boolean = buffer.isEmpty
   }
 }
