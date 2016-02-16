@@ -1,21 +1,20 @@
 package com.lolboxen.xmpp
 
-import akka.actor.{ActorRef, Actor}
+import akka.actor.{Actor, ActorRef}
 import akka.event.Logging
-import akka.io.Tcp.Write
 
 /**
  * Created by Trent Ahrens on 12/12/14.
  */
-class PacketWriter(tcpWritingActor: ActorRef) extends Actor {
+class PacketWriter(tcpWritingActor: ActorRef, map: Send => AnyRef) extends Actor {
 
   val log = Logging(context.system, this)
 
   override def receive: Receive = {
     case m: RegisterTcpActor => tcpWritingActor ! m
     case UnregisterTcpActor => tcpWritingActor ! UnregisterTcpActor
-    case Send(p) =>
-      log.info("Sending packet: {}", p)
-      tcpWritingActor ! Write(p.byteString)
+    case m: Send =>
+      log.info("Sending packet: {}", m.packet)
+      tcpWritingActor ! map(m)
   }
 }

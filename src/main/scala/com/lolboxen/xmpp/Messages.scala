@@ -17,11 +17,11 @@ case object Disconnect
 
 case object Disconnected
 
-case class Send(m: Packet)
+case class Send(packet: Packet)
 
-case class Received(p: Packet)
+case class Received(packet: Packet)
 
-case class ReceivedBytes(b: ByteString)
+case class ReceivedBytes(byteString: ByteString)
 
 case class RegisterTcpActor(connection: ActorRef)
 
