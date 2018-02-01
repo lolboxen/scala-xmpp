@@ -1,6 +1,6 @@
 name := "scala-xmpp"
 
-version := "1.0"
+version := "1.0.6"
 
 scalaVersion := "2.11.4"
 
