@@ -8,6 +8,6 @@ import com.lolboxen.xmpp.Jid
  */
 class StreamBeganTest extends UnitSpec {
   it should "generate correct stream starting tag" in {
-    StreamBegan(None, "1.1", None, Some(Jid("example.com"))).byteString.decodeString("UTF-8") shouldBe """<stream:stream xmlns="jabber:client" xmlns:stream="http://etherx.jabber.org/streams" xml:lang="en" version="1.1" to="example.com">"""
+    StreamBegan(None, "1.1", None, Some(Jid("example.com"))).byteString.decodeString("UTF-8") shouldBe """<?xml version='1.0'  encoding='UTF-8' ?><stream:stream xmlns="jabber:client" xmlns:stream="http://etherx.jabber.org/streams" xml:lang="en" version="1.1" to="example.com">"""
   }
 }

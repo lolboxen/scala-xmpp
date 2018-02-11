@@ -18,8 +18,8 @@ class PacketReaderTest extends AkkaUnitSpec {
     TestKit.shutdownActorSystem(system)
   }
 
-  it should "correct decode packets" in {
-    packetReader ! akka.io.Tcp.Received(ByteString("""<stream:stream xmlns="jabber:client" xmlns:stream="http://etherx.jabber.org/streams" id="1" version="1.0" from="domain.com"></stream:stream>"""))
+  it should "correctly decode packets" in {
+    packetReader ! ReceivedBytes(ByteString("""<stream:stream xmlns="jabber:client" xmlns:stream="http://etherx.jabber.org/streams" id="1" version="1.0" from="domain.com"></stream:stream>"""))
     expectMsgAllOf(
       Received(StreamBegan(Some("1"), "1.0", Some(Jid("domain.com")), None)),
       Received(StreamEnded))

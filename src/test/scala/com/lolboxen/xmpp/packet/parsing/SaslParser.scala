@@ -1,7 +1,7 @@
 package com.lolboxen.xmpp.packet.parsing
 
 import com.lolboxen.test.UnitSpec
-import com.lolboxen.xmpp.packet.{SaslChallenge, SaslSuccess}
+import com.lolboxen.xmpp.packet._
 
 import scala.xml.Elem
 
@@ -33,5 +33,29 @@ class SaslSuccessParserTest extends UnitSpec {
 
   it should "parse packet" in {
     parser.parse(elem) shouldBe SaslSuccess
+  }
+}
+
+class SaslFailureParserTest extends UnitSpec {
+
+  val notAuthorized: Elem = <failure xmlns="urn:ietf:params:xml:ns:xmpp-sasl"><not-authorized/></failure>
+  val invalidAuthzid: Elem = <failure xmlns="urn:ietf:params:xml:ns:xmpp-sasl"><invalid-authzid/></failure>
+  val unknown: Elem = <failure xmlns="urn:ietf:params:xml:ns:xmpp-sasl"><not-in-spec-failure/></failure>
+  val parser: SaslFailureParser = new SaslFailureParser
+
+  it should "recognize failure" in {
+    parser.canParse(notAuthorized) shouldBe true
+  }
+
+  it should "parse not authorized" in {
+    parser.parse(notAuthorized) shouldBe SaslFailure(NotAuthorized)
+  }
+
+  it should "parse invalid authzid" in {
+    parser.parse(invalidAuthzid) shouldBe SaslFailure(InvalidAuthzid)
+  }
+
+  it should "parse faults not in spec" in {
+    parser.parse(unknown) shouldBe SaslFailure(UnknownReason)
   }
 }
